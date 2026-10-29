@@ -63,7 +63,8 @@ test('valid Access JWT can read admin; no cache, strict CSP, no raw KV HTML', as
     assert.equal((await (await request('/admin/api/links')).json()).content, node);
     const injected = renderAdmin({ SUBNAME: '</script><img src=x onerror=alert(1)>', TOKEN: '</script>' }, 'nonce');
     assert.ok(!injected.includes('</script><img'));
-    assert.match(injected, /editor.value = result.content/);
+    assert.match(injected, /title.textContent = nodeLabel/);
+    assert.ok(!injected.includes('innerHTML'));
 });
 test('CSRF, unsupported method, content type, and oversized bodies cannot write KV', async () => {
     assert.equal((await save(node, { Origin: 'https://evil.example' })).status, 403);
