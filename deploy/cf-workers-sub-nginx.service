@@ -1,0 +1,19 @@
+[Unit]
+Description=HTTPS ingress for node subscriptions
+After=network-online.target cf-workers-sub.service
+Wants=network-online.target
+[Service]
+Type=simple
+ExecStartPre=/usr/sbin/nginx -t -c /opt/cf-workers-sub/nginx.conf
+ExecStart=/usr/sbin/nginx -c /opt/cf-workers-sub/nginx.conf -g "daemon off;"
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+KillSignal=SIGQUIT
+TimeoutStopSec=10
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+NoNewPrivileges=yes
+[Install]
+WantedBy=multi-user.target
