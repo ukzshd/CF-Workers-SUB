@@ -249,6 +249,10 @@ function base64Decode(str) {
 }
 
 async function MD5MD5(text) {
+	if (env.md5) {
+		const firstHex = env.md5(text);
+		return env.md5(firstHex.slice(7, 27));
+	}
 	const encoder = new TextEncoder();
 
 	const firstPass = await crypto.subtle.digest('MD5', encoder.encode(text));
