@@ -5,7 +5,7 @@
 ## 构建与预览
 
 1. 本地 Node 22+：`pnpm install --frozen-lockfile`、`pnpm build`、`pnpm test`。
-2. Pages 项目的构建命令设为 `node scripts/build.mjs`，构建输出目录设为 `dist`。提交了 pnpm 锁文件，Pages 应安装依赖后执行构建。运行时兼容日期保持现有设置。
+2. Pages 项目的构建命令设为 `corepack pnpm install --frozen-lockfile && corepack pnpm build`，构建输出目录设为 `dist`。提交了 pnpm 锁文件，Pages 应安装依赖后执行构建。运行时兼容日期保持现有设置。
 3. 现有 `wrangler.toml` 是旧版独立 Workers 配置，不用于 Pages。本版本以控制台管理 Pages 变量和绑定。不要把 Git 仓库根目录作为静态输出目录；只发布包含打包后 `_worker.js` 的 `dist`。
 4. 预览环境单独创建测试 KV，并绑定为 `KV`；不要绑定生产 KV。设置测试 `TOKEN`，使用合成节点测试，不复制正式节点。
 5. 在分支预览上验证后再合并 main。生产仍使用原来的 KV，原 `LINK.txt` 不迁移、不清空。兼容读取旧 `/LINK.txt`，首次管理保存写入 `LINK.txt`。
@@ -50,3 +50,9 @@ Cloudflare 平台自身的访问日志不受应用日志代码控制。订阅凭
 发布前由管理员导出节点文本并妥善保管，不提交 GitHub。回滚可在 Pages 选择上一部署，但会恢复旧后台权限模型；KV 数据不会随代码回滚。构建设置也需在回滚后保留本版本所需值，以便再次发布。
 
 上游同步工作流没有改动。后续同步上游时需审查安全后台是否仍被保留，不要自动覆盖本地改造。
+
+## 历史部署入口
+
+除了自定义域的 `/admin`，还需保护 `*.你的项目.pages.dev` 的所有路径。旧版本的不可变部署地址可能仍运行旧编辑器并绑定同一 KV，新代码无法修改这些历史部署。当前项目已将历史与预览域统一纳入管理员 Access 策略。自定义域及默认生产域的订阅路径不纳入 Access，继续供客户端更新。
+
+生产构建使用仓库 `.node-version` 指定 Node 22。发布时应确认生产部署显示最新 main 提交；仅 GitHub 合并成功不等于 Cloudflare 已发布。
