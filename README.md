@@ -1,5 +1,9 @@
 # ⚙ 自建汇聚订阅 CF-Workers-SUB
 
+> 本分支已加入独立安全后台。管理入口改为 `/admin`，旧 TOKEN 地址只提供订阅。
+> **部署前请先阅读 [安全后台部署说明](./SECURE-DEPLOYMENT.md)**，配置 Pages 构建、独立测试 KV 和 Cloudflare Access；未配置登录时后台默认关闭。
+> 以下为上游原始说明，其中旧管理入口和 Telegram 通知说明不再适用于本分支。
+
 ![自建汇聚订阅 CF-Workers-SUB](./sub.png)
 
 这是一个将多个节点和订阅合并为单一链接的工具，支持自动适配与自定义分流，简化了订阅管理。

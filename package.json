@@ -1,0 +1,12 @@
+{
+  "name": "cf-workers-sub",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": { "jose": "^6.1.0" },
+  "devDependencies": { "esbuild": "^0.25.0", "miniflare": "^4.0.0" }
+}
