@@ -1,0 +1,36 @@
+[Unit]
+Description=Private node subscription manager
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=cf-workers-sub
+StateDirectoryMode=0700
+WorkingDirectory=/var/lib/cf-workers-sub
+EnvironmentFile=/etc/cf-workers-sub.env
+Environment=HOST=127.0.0.1
+Environment=PORT=3080
+Environment=DATABASE_PATH=/var/lib/cf-workers-sub/nodes.sqlite
+ExecStart=/opt/cf-workers-sub/runtime/bin/node /opt/cf-workers-sub/server.mjs
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+MemoryMax=192M
+CPUQuota=50%
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:vps": "node scripts/build-node.mjs",
     "test": "node --test test/*.test.js"
   },
   "dependencies": { "jose": "^6.1.0" },
